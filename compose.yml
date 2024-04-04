@@ -1,0 +1,42 @@
+#version: "3.9"
+services:
+    nginx:
+      build: ./nginx/
+      image: nginx:latest
+      container_name: nginx-container
+      volumes:
+        - ./php_code/:/var/www/html/
+      ports:
+        - 8000:80
+
+    front:
+      build:
+        context: ./front
+      volumes:
+        - ./front/:/front
+      command: ["sh", "docker/dev.sh"]
+#      entrypoint: /bin/sh
+#      tty: true
+      ports:
+        - "5173:5173"
+
+    php:
+      build: ./php_code/
+      expose:
+        - 9000
+      volumes:
+        - ./php_code/:/var/www/html/
+
+    db:
+      image: mariadb
+      volumes:
+        - mysql-data:/var/lib/mysql
+      ports:
+        - "6606:3306"
+      environment:
+        MYSQL_DB: ${MYSQL_DB:-app}
+        MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-!ChangeMe!} mariadb
+        MYSQL_DATABASE: ${MYSQL_USER:-app} ecomdb
+
+volumes:
+    mysql-data:
