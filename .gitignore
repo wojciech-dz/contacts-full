@@ -1,1 +1,3 @@
-./node_modules/
+./db_scripts/
+./db-load.sql
+./front/node_modules/
