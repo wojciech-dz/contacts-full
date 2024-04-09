@@ -1,35 +1,37 @@
 <script setup>
   import ContactsInput from './ContactsInput.vue';
   import { validEmail } from './tools.js';
-  import {ref, computed, defineProps, defineEmits, onMounted} from 'vue'
+  import {ref, computed, defineProps, defineEmits, watch} from 'vue'
   import axios from 'axios'
   import {store} from "@/components/store.js";
 
-  defineProps(['contact'])
+  const props = defineProps(['contact'])
   const emits = defineEmits(['saved'])
 
-  const id = ref('')
-  const name = ref('')
-  const surname = ref('')
-  const email = ref('')
-  const contents = ref('')
   const _id = ref('')
   const _name = ref('')
   const _surname = ref('')
   const _email = ref('')
   const _contents = ref('')
 
+  const id = ref(props.contact ? props.contact.id : '')
+  const name = ref(props.contact ? props.contact.name : '')
+  const surname = ref(props.contact ? props.contact.surname : '')
+  const email = ref(props.contact ? props.contact.email : '')
+  const contents = ref(props.contact ? props.contact.contents : '')
+
+  watch(() => props.contact, (newValue, oldValue) => {
+    id.value = newValue.name;
+    name.value = newValue.name;
+    surname.value = newValue.surname;
+    email.value = newValue.email;
+    contents.value = newValue.contents;
+  });
+
   const cantSave = computed(
     () => !name.value || !surname.value || !email.value || !contents.value || !validEmail(email.value)
   )
 
-  function onMounted() {
-    this.id = contact.id;
-    this.name = contact.name;
-    this.surname= contact.surname;
-    this.email= contact.email;
-    this.contents= contact.contents;
-  }
   async function saveForm() {
     debugger;
     try {
@@ -111,9 +113,5 @@ export default {
 
   button {
     width: 100px;
-  }
-
-  button:hover {
-    background-color: #059862
   }
 </style>

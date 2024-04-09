@@ -10,9 +10,9 @@
   function onSaved(contact) {
     store.addContact(contact)
   }
-  function onSelected(selectedContact) {
+  function onSelected(selected) {
     // store.addContact(contact)
-    console.log(selectedContact)
+    selectedContact.value = selected;
   }
 </script>
 
@@ -20,7 +20,7 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
   </div>
-  <ContactsForm  :contact="selectedContact" @saved="onSaved" />
+  <ContactsForm :contact="selectedContact ? selectedContact : null" @saved="onSaved" />
   <ContactsList @selected="onSelected"/>
 </template>
 

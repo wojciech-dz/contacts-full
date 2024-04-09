@@ -7,22 +7,7 @@ const emits = defineEmits(['selected'])
 
   function editSelected(contact) {
     if (contact) {
-      // console.log('Zaznaczony rekord do edycji:', this.selectedContact);
-      // console.log(
-      //     this.selectedContact.id,
-      //     this.selectedContact.name,
-      //     this.selectedContact.surname,
-      //     this.selectedContact.email,
-      //     this.selectedContact.contents,
-      // );
       emits('selected', contact)
-      // emits('selected', {
-      //   id: this.selectedContact.id,
-      //   name: this.selectedContact.name,
-      //   surname: this.selectedContact.surname,
-      //   email: this.selectedContact.email,
-      //   contents: this.selectedContact.contents
-      // })
     } else {
       console.log('Nie wybrano żadnego rekordu do edycji.');
     }
@@ -81,29 +66,6 @@ export default {
     addItem() {
       // Implement add functionality
     },
-    // editSelected() {
-    //   if (this.selectedContact) {
-    //     // Tutaj możesz wykonać operacje edycji na zaznaczonym rekordzie
-    //     console.log('Zaznaczony rekord do edycji:', this.selectedContact);
-    //     console.log(
-    //         this.selectedContact.id,
-    //         this.selectedContact.name,
-    //         this.selectedContact.surname,
-    //         this.selectedContact.email,
-    //         this.selectedContact.contents,
-    //     );
-    //     emits('selected')
-    //     // emits('selected', {
-    //     //   id: this.selectedContact.id,
-    //     //   name: this.selectedContact.name,
-    //     //   surname: this.selectedContact.surname,
-    //     //   email: this.selectedContact.email,
-    //     //   contents: this.selectedContact.contents
-    //     // })
-    //   } else {
-    //     console.log('Nie wybrano żadnego rekordu do edycji.');
-    //   }
-    // },
     deleteSelected() {
       if (this.selectedContact) {
         // Tutaj możesz wykonać operacje edycji na zaznaczonym rekordzie
