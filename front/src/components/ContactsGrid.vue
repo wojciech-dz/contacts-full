@@ -1,31 +1,60 @@
 <script setup>
 // import { store } from './store.js'
-import { defineProps } from 'vue'
+import { defineProps, defineEmits } from 'vue'
 
 defineProps(['contacts'])
+const emits = defineEmits(['selected'])
 
+  function editSelected(contact) {
+    if (contact) {
+      // console.log('Zaznaczony rekord do edycji:', this.selectedContact);
+      // console.log(
+      //     this.selectedContact.id,
+      //     this.selectedContact.name,
+      //     this.selectedContact.surname,
+      //     this.selectedContact.email,
+      //     this.selectedContact.contents,
+      // );
+      emits('selected', contact)
+      // emits('selected', {
+      //   id: this.selectedContact.id,
+      //   name: this.selectedContact.name,
+      //   surname: this.selectedContact.surname,
+      //   email: this.selectedContact.email,
+      //   contents: this.selectedContact.contents
+      // })
+    } else {
+      console.log('Nie wybrano żadnego rekordu do edycji.');
+    }
+  }
 </script>
 
 <template>
-  <table>
+  <table class="table table-striped">
     <tr>
       <th>id</th>
       <th>name</th>
       <th>surname</th>
       <th>email</th>
       <th>contents</th>
-      <th>actions</th>
+      <th>actions
+        <button type="button" class="btn btn-warning" @click="addItem()"> + </button>
+      </th>
     </tr>
 
-    <tr v-for="contact in contacts" v-bind:key="contact.id">
+    <tr v-for="contact in contacts" v-bind:key="contact.id"
+        :class="{ 'selected': selectedContact === contact }"
+        @mouseover="highlightContact(contact)"
+        @mouseleave="removeHighlight"
+        @click="selectContact(contact)">
       <td>{{contact.id}}</td>
       <td>{{contact.name}}</td>
       <td>{{contact.surname}}</td>
       <td>{{contact.email}}</td>
       <td>{{contact.contents}}</td>
       <td>
-        <button @click="editItem(contact)">Edycja</button>
-        <button @click="deleteItem(contact.id)">Usuń</button>
+        <button type="button" class="btn btn-success" @click="editSelected(contact)">Edycja</button>
+        <button type="button" class="btn btn-danger" @click="deleteSelected()">Usuń</button>
       </td>
     </tr>
   </table>
@@ -33,12 +62,55 @@ defineProps(['contacts'])
 
 <script>
 export default {
+  data() {
+    return {
+      records: [ /* Twoje dane */ ],
+      selectedContact: null // Przechowuje wybrany rekord
+    };
+  },
   methods: {
-    editItem(item) {
-      // Implement edit functionality
+    highlightContact(contact) {
+      this.selectedContact = contact;
     },
-    deleteItem(itemId) {
-      // Implement delete functionality
+    removeHighlight() {
+      this.selectedContact = null;
+    },
+    selectContact(contact) {
+      this.selectedContact = contact;
+    },
+    addItem() {
+      // Implement add functionality
+    },
+    // editSelected() {
+    //   if (this.selectedContact) {
+    //     // Tutaj możesz wykonać operacje edycji na zaznaczonym rekordzie
+    //     console.log('Zaznaczony rekord do edycji:', this.selectedContact);
+    //     console.log(
+    //         this.selectedContact.id,
+    //         this.selectedContact.name,
+    //         this.selectedContact.surname,
+    //         this.selectedContact.email,
+    //         this.selectedContact.contents,
+    //     );
+    //     emits('selected')
+    //     // emits('selected', {
+    //     //   id: this.selectedContact.id,
+    //     //   name: this.selectedContact.name,
+    //     //   surname: this.selectedContact.surname,
+    //     //   email: this.selectedContact.email,
+    //     //   contents: this.selectedContact.contents
+    //     // })
+    //   } else {
+    //     console.log('Nie wybrano żadnego rekordu do edycji.');
+    //   }
+    // },
+    deleteSelected() {
+      if (this.selectedContact) {
+        // Tutaj możesz wykonać operacje edycji na zaznaczonym rekordzie
+        console.log('Zaznaczony rekord do usunięcia:', this.selectedContact);
+      } else {
+        console.log('Nie wybrano żadnego rekordu do usunięcia.');
+      }
     },
   },
 };
@@ -59,7 +131,7 @@ export default {
     padding: 8px;
   }
 
-  tr:nth-child(even) { background-color: #f2f2f2; }
+  tr:nth-child(even) { background-color: #f8f8f8; }
   tr:hover { background-color: #ddd; }
 
   th {
@@ -68,5 +140,10 @@ export default {
     text-align: left;
     background-color: #04AA6D;
     color: white;
+  }
+
+  button {
+    width: 100px;
+    margin-bottom: 5px;
   }
 </style>

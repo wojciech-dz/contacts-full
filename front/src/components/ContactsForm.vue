@@ -1,8 +1,11 @@
 <script setup>
-  import ContactsInput from './ContactsInput.vue'
-  import { ref, computed, defineEmits, provide } from 'vue'
+  import ContactsInput from './ContactsInput.vue';
+  import { validEmail } from './tools.js';
+  import {ref, computed, defineProps, defineEmits, onMounted} from 'vue'
   import axios from 'axios'
+  import {store} from "@/components/store.js";
 
+  defineProps(['contact'])
   const emits = defineEmits(['saved'])
 
   const id = ref('')
@@ -20,7 +23,15 @@
     () => !name.value || !surname.value || !email.value || !contents.value || !validEmail(email.value)
   )
 
+  function onMounted() {
+    this.id = contact.id;
+    this.name = contact.name;
+    this.surname= contact.surname;
+    this.email= contact.email;
+    this.contents= contact.contents;
+  }
   async function saveForm() {
+    debugger;
     try {
       const response = await axios.post('http://localhost:8000/contactform', {
             name: name.value,
@@ -45,11 +56,6 @@
       console.log(error)
     }
   }
-
-  function validEmail(email) {
-    var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-  }
 </script>
 
 <template>
@@ -59,7 +65,7 @@
       <ContactsInput v-model="surname" label="Nazwisko" type="text"/>
       <ContactsInput v-model="email" label="Adres email" type="email" />
       <ContactsInput v-model="contents" label="Wiadomość" type="text" />
-      <button :disabled="cantSave" @click="saveForm">Zapisz</button>
+      <button type="button" class="btn btn-success" :disabled="cantSave" @click="saveForm">Zapisz</button>
     </form>
   </div>
   
@@ -91,10 +97,6 @@ export default {
 </script>
 
 <style scoped>
-  h4 {
-    margin: 10 0 0 0;
-  }
-<style scoped>
   form {
     display: flex;
     flex-direction: column;
@@ -108,14 +110,6 @@ export default {
   }
 
   button {
-    background-color: #04AA6D;
-    border-radius: 20px;
-    border-width: 0;
-    color: #333333;
-    cursor: pointer;
-    padding: 10px 12px;
-    text-align: center;
-    margin-bottom: 20px;
     width: 100px;
   }
 

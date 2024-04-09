@@ -1,5 +1,6 @@
 <template>
-  <ContactsData msg="ContactForms Data"/>
+  <ContactsData msg=""/>
+<!--  <ContactsData msg="ContactForms Data"/>-->
 </template>
 
 <script>
