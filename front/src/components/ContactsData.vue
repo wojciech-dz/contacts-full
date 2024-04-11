@@ -10,6 +10,10 @@
   function onSaved(contact) {
     store.addContact(contact)
   }
+
+  function onCleared() {
+    // store.clearContact()
+  }
   function onSelected(selected) {
     // store.addContact(contact)
     selectedContact.value = selected;
@@ -20,7 +24,7 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
   </div>
-  <ContactsForm :contact="selectedContact ? selectedContact : null" @saved="onSaved" />
+  <ContactsForm :contact="selectedContact ? selectedContact : null" @saved="onSaved" @cleared="onCleared"/>
   <ContactsList @selected="onSelected"/>
 </template>
 

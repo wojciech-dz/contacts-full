@@ -23,7 +23,7 @@ const emits = defineEmits(['selected'])
       <th>email</th>
       <th>contents</th>
       <th>actions
-        <button type="button" class="btn btn-warning" @click="addItem()"> + </button>
+        <button type="button" class="btn btn-warning" @click="addItem()">Dodaj</button>
       </th>
     </tr>
 
@@ -38,8 +38,8 @@ const emits = defineEmits(['selected'])
       <td>{{contact.email}}</td>
       <td>{{contact.contents}}</td>
       <td>
-        <button type="button" class="btn btn-success" @click="editSelected(contact)">Edycja</button>
-        <button type="button" class="btn btn-danger" @click="deleteSelected()">Usuń</button>
+          <button type="button" class="btn btn-success" @click="editSelected(contact)">Edycja</button>
+          <button type="button" class="btn btn-danger" @click="deleteSelected()">Usuń</button>
       </td>
     </tr>
   </table>
