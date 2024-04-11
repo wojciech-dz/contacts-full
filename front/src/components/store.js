@@ -12,5 +12,11 @@ export const store = reactive({
       updated.email = contact.email;
       updated.contents = contact.contents;
     }
+  },
+  deleteContact(contact) {
+    const foundIndex = this.contacts.findIndex(x => x.id === contact.id);
+    if(foundIndex !== -1){
+      this.contacts.splice(foundIndex, 1);
+    }
   }
 })
