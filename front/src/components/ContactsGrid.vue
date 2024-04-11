@@ -1,13 +1,20 @@
 <script setup>
-// import { store } from './store.js'
 import { defineProps, defineEmits } from 'vue'
 
 defineProps(['contacts'])
-const emits = defineEmits(['selected'])
+const emits = defineEmits(['selected', 'delete'])
 
   function editSelected(contact) {
     if (contact) {
       emits('selected', contact)
+    } else {
+      console.log('Nie wybrano żadnego rekordu do edycji.');
+    }
+  }
+
+  function deleteSelected(contact) {
+    if (contact) {
+      emits('delete', contact)
     } else {
       console.log('Nie wybrano żadnego rekordu do edycji.');
     }
@@ -39,7 +46,7 @@ const emits = defineEmits(['selected'])
       <td>{{contact.contents}}</td>
       <td>
           <button type="button" class="btn btn-success" @click="editSelected(contact)">Edycja</button>
-          <button type="button" class="btn btn-danger" @click="deleteSelected()">Usuń</button>
+          <button type="button" class="btn btn-danger" @click="deleteSelected(contact)">Usuń</button>
       </td>
     </tr>
   </table>
@@ -65,14 +72,6 @@ export default {
     },
     addItem() {
       // Implement add functionality
-    },
-    deleteSelected() {
-      if (this.selectedContact) {
-        // Tutaj możesz wykonać operacje edycji na zaznaczonym rekordzie
-        console.log('Zaznaczony rekord do usunięcia:', this.selectedContact);
-      } else {
-        console.log('Nie wybrano żadnego rekordu do usunięcia.');
-      }
     },
   },
 };

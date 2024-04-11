@@ -6,7 +6,7 @@
   import {store} from "@/components/store.js";
 
   const props = defineProps(['contact'])
-  const emits = defineEmits(['saved'])
+  const emits = defineEmits(['saved', 'cleared'])
 
   const _id = ref('')
   const _name = ref('')

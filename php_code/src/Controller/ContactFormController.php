@@ -74,7 +74,7 @@ class ContactFormController extends AbstractController
             return $this->json('No contact form data for id '.$id, 404);
         }
 
-        $repository->remove($contactForm, true);
+        $this->entityManager->remove($this->entityManager->getReference(ContactForm::class, $id));
         $this->entityManager->flush();
 
         return $this->json('Deleted a contact form data successfully with id ' . $id);

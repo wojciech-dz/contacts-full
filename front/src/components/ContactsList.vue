@@ -2,15 +2,18 @@
   import ContactsGrid from './ContactsGrid.vue'
   import { ref, onMounted, defineEmits, inject } from 'vue'
   import { store } from './store.js'
-  const tempContacts = ref([])
 
-  const emits = defineEmits(['selected'])
+  const emits = defineEmits(['selected', 'delete'])
 
   onMounted(async () => {
     store.contacts = await fetchContacts();
   })
   function onSelected(contact) {
     emits('selected', contact);
+  }
+
+  function onDelete(contact) {
+    emits('delete', contact);
   }
 
   const fetchContacts = async () => {
@@ -29,7 +32,7 @@
 
 <template>
   <div class="table-container">
-    <ContactsGrid :contacts="store.contacts" @selected="onSelected"/>
+    <ContactsGrid :contacts="store.contacts" @selected="onSelected" @delete="onDelete"/>
   </div>
 </template>
 
