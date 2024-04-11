@@ -21,24 +21,42 @@ class ContactFormController extends AbstractController
     #[Route('/contactforms', name: 'contact_form_list', methods: ['GET'])]
     public function getContactForms(ContactFormRepository $repository): JsonResponse
     {
+//        xdebug_info();
         return $this->json($repository->findAll());
     }
 
-    #[Route('/contactform/{id}/edit', name: 'contact_form_update', methods: ['PUT', 'PATCH'])]
+    #[Route('/contactform/{id}', name: 'contact_form_update', methods: ['PUT', 'PATCH'])]
     public function updateContactForm(Request $request, int $id, ContactFormRepository $repository): JsonResponse
     {
-        $currentContactForm = $repository->find($id);
-        if (!$currentContactForm) {
+        $contactForm = $repository->find($id);
+        if (!$contactForm) {
             return $this->json('No contact form data for id '.$id, 404);
         }
 
-        $currentContactForm->setName($request->get('name'));
-        $currentContactForm->setSurname($request->get('surname'));
-        $currentContactForm->setEmail($request->get('email'));
-        $currentContactForm->setContents($request->get('contents'));
+        $params = $request->getPayload()->all();
+        if (!$this->validateContactFormData($params)) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Niestety, przy próbie zapisu wystąpiły błędy.',
+            ]);
+        }
+
+        $contactForm->setName($params['name']);
+        $contactForm->setSurName($params['surname']);
+        $contactForm->setEmail($params['email']);
+        $contactForm->setContents($params['contents']);
+
+        $this->entityManager->persist($contactForm);
         $this->entityManager->flush();
 
-        return $this->json($currentContactForm);
+        return $this->json([
+            'message' => 'Dane z formularza zostały poprawnie zapisane!',
+            'id' => $contactForm->getId(),
+            'name' => $contactForm->getName(),
+            'surname' => $contactForm->getSurname(),
+            'email' => $contactForm->getEmail(),
+            'contents' => $contactForm->getContents()
+        ]);
     }
 
 

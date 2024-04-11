@@ -1,7 +1,7 @@
 <script setup>
   import {computed, defineProps, defineEmits} from "vue";
 
-  const props = defineProps(['label', 'modelValue', 'type'])
+  const props = defineProps(['label', 'modelValue', 'type', 'disabled'])
   const emits = defineEmits(['update:modelValue'])
 
   const value = computed({
@@ -13,7 +13,7 @@
 <template>
   <label class="contact-input">
     {{ label }}
-    <input :type="type" v-model="value">
+    <input :type="type" v-model="value" :disabled="disabled">
   </label>
 </template>
 

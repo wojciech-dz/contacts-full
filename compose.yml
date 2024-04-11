@@ -3,11 +3,10 @@ services:
     nginx:
       build: ./nginx/
       image: nginx:latest
-      container_name: nginx-container
-      volumes:
-        - ./php_code/:/var/www/html/
       ports:
         - 8000:80
+      volumes:
+        - ./php_code/:/var/www/html/
 
     front:
       build:
@@ -22,8 +21,11 @@ services:
 
     php:
       build: ./php_code/
+      working_dir: /var/www/html/
+      extra_hosts:
+        - host.docker.internal:host-gateway
       expose:
-        - 9000
+        - 9003
       volumes:
         - ./php_code/:/var/www/html/
 
