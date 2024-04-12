@@ -18,11 +18,16 @@ class ContactFormController extends AbstractController
     {
     }
 
-    #[Route('/contactforms', name: 'contact_form_list', methods: ['GET'])]
+    #[Route('/contactforms', name: 'contact_forms_list', methods: ['GET'])]
     public function getContactForms(ContactFormRepository $repository): JsonResponse
     {
-//        xdebug_info();
         return $this->json($repository->findAll());
+    }
+
+    #[Route('/contactforms/{first}/{limit}', name: 'contact_forms_page', methods: ['GET'])]
+    public function getContactFormsByPage(ContactFormRepository $repository, int $first, int $limit): JsonResponse
+    {
+        return $this->json($repository->getAllByPage($first, $limit));
     }
 
     #[Route('/contactform/{id}', name: 'contact_form_update', methods: ['PUT', 'PATCH'])]
