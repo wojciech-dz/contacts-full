@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ContactForm;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,18 +22,36 @@ class ContactFormRepository extends ServiceEntityRepository
         parent::__construct($registry, ContactForm::class);
     }
 
-       /**
-        * @return ContactForm[] Returns an array of ContactForm objects
-        */
-       public function findByExampleField($value): array
-       {
-           return $this->createQueryBuilder('c')
-               ->andWhere('c.exampleField = :val')
-               ->setParameter('val', $value)
-               ->orderBy('c.id', 'ASC')
-               ->setMaxResults(10)
-               ->getQuery()
-               ->getArrayResult()
-           ;
-       }
+    /**
+     * @return ContactForm[] Returns an array of ContactForm objects
+     */
+    public function getAllByPage($first, $limit): array
+    {
+        $query = $this->createQueryBuilder('cf')
+            ->orderBy('cf.id', 'ASC')
+            ->setFirstResult($first)
+            ->setMaxResults($limit)
+            ->getQuery();
+        $paginator = new Paginator($query);
+        $iterator = $paginator->getIterator();
+
+        $arrayCopy = $iterator->getArrayCopy();
+
+        return $arrayCopy;
+    }
+
+   /**
+    * @return ContactForm[] Returns an array of ContactForm objects
+    */
+   public function findByExampleField($value): array
+   {
+       return $this->createQueryBuilder('c')
+           ->andWhere('c.exampleField = :val')
+           ->setParameter('val', $value)
+           ->orderBy('c.id', 'ASC')
+           ->setMaxResults(10)
+           ->getQuery()
+           ->getArrayResult()
+       ;
+   }
 }
