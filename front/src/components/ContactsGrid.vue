@@ -14,7 +14,9 @@ const emits = defineEmits(['selected', 'delete'])
 
   function deleteSelected(contact) {
     if (contact) {
-      emits('delete', contact)
+      if (confirm('Czy na pewno chcesz usunąć ten zapis?')) {
+        emits('delete', contact)
+      }
     } else {
       console.log('Nie wybrano żadnego rekordu do edycji.');
     }
