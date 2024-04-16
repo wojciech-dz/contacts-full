@@ -25,19 +25,27 @@ class ContactFormRepository extends ServiceEntityRepository
     /**
      * @return ContactForm[] Returns an array of ContactForm objects
      */
-    public function getAllByPage($first, $limit): array
+    public function getAllByPage($first, $pageSize): array
     {
         $query = $this->createQueryBuilder('cf')
             ->orderBy('cf.id', 'ASC')
             ->setFirstResult($first)
-            ->setMaxResults($limit)
+            ->setMaxResults($pageSize)
             ->getQuery();
         $paginator = new Paginator($query);
+
+        $totalItems = count($paginator);
+        $pagesCount = ceil($totalItems / $pageSize);
+
         $iterator = $paginator->getIterator();
 
         $arrayCopy = $iterator->getArrayCopy();
 
-        return $arrayCopy;
+        return [
+            'contacts' => $arrayCopy,
+            'total' => $totalItems,
+            'pages' => $pagesCount,
+        ];
     }
 
    /**
