@@ -18,7 +18,7 @@ const emits = defineEmits(['selected', 'delete'])
         emits('delete', contact)
       }
     } else {
-      console.log('Nie wybrano żadnego rekordu do edycji.');
+      console.log('Nie wybrano żadnego rekordu.');
     }
   }
 </script>
