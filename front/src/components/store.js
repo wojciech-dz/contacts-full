@@ -4,9 +4,7 @@ export const store = reactive({
   contacts: [],
   addContact(contact) {
     const updated = this.contacts.find(x => x.id === contact.id);
-    if (!updated) {
-      this.contacts.push(contact)
-    } else {
+    if (updated) {
       updated.name = contact.name;
       updated.surname = contact.surname;
       updated.email = contact.email;
