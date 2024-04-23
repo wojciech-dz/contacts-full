@@ -1,5 +1,5 @@
 <script setup>
-  import { defineAsyncComponent, ref, onMounted, defineEmits, inject } from 'vue'
+  import { ref, onMounted, defineEmits } from 'vue'
   import ContactsGrid from '@/components/ContactsGrid.vue'
   import { store } from '@/components/store.js'
   import Pagination from "@/components/Pagination.vue";

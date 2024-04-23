@@ -1,7 +1,7 @@
 <script setup>
-  import ContactsForm from './ContactsForm.vue'
-  import ContactsList from './ContactsList.vue'
-  import { store } from './store.js'  
+  import ContactsForm from '@/components/ContactsForm.vue'
+  import ContactsList from '@/components/ContactsList.vue'
+  import { store } from '@/components/store.js'
   import { ref } from 'vue'
   import ContactsGrid from "@/components/ContactsGrid.vue";
   import axios from "axios";
@@ -21,7 +21,6 @@
   }
 
   function onDelete(selected) {
-    console.log(selected);
     selectedContact.value = selected;
     deleteContact(selected);
   }
